@@ -10,7 +10,7 @@ const readJson = async (file: string): Promise<Record<string, unknown>> =>
 describe('frozen V1 release contracts', () => {
   it('keeps package and CLI identity stable', async () => {
     const packageJson = await readJson('package.json');
-    expect(packageJson.version).toBe('1.0.0-rc.1');
+    expect(packageJson.version).toBe('1.0.0');
     expect(packageJson.bin).toEqual({ openprompting: 'dist/cli.js' });
 
     const program = createProgram();

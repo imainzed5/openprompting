@@ -10,6 +10,8 @@
 - [x] Initial OpenAI, Anthropic, and Google model/harness coverage validates.
 - [x] Config schema v1 and evidence vocabulary are documented as frozen.
 - [x] License, contributor guide, issue templates, PR template, changelog, migration notes, and release notes exist.
+- [x] `v1.0.0-rc.1` tag and GitHub prerelease were created after green CI.
+- [x] The immutable RC tag passed the full six-job matrix (run 34205762271).
 
 ## Platform evidence
 

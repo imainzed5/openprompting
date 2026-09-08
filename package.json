@@ -1,6 +1,6 @@
 {
   "name": "openprompting",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "packageManager": "pnpm@10.34.5",
   "description": "A source-backed, local-first field guide and CLI for AI models, harnesses, and recurring tasks.",
   "type": "module",
