@@ -1,8 +1,14 @@
 # openPrompting
 
-openPrompting is a source-backed, local-first CLI for understanding AI models, coding harnesses, and recurring task types. It runs deterministically without an account, API key, hosted service, telemetry, or model call.
+openPrompting helps developers work more effectively with AI coding agents by providing source-backed guidance for the model, harness, and task they are actually using.
 
-## Install
+It is a local, deterministic CLI for configuring setups and profiles, generating task-specific prompt skeletons, checking local setup health, and comparing documented model and harness choices. It is for developers using one coding-agent stack, switching among several, or contributing practical knowledge.
+
+Current stable release: [`openprompting@1.0.0`](https://www.npmjs.com/package/openprompting)
+
+> openPrompting is not a collection of “1,000 awesome prompts.” It is a source-backed guidance/configuration layer built around **MODEL + HARNESS + TASK**.
+
+## Quick install
 
 Node.js 20 or newer is required.
 
@@ -11,28 +17,81 @@ npm install --global openprompting
 openprompting --version
 ```
 
-The package is npm-compatible; pnpm users may use `pnpm add --global openprompting`.
+## Quick start
 
-## Start here
-
-In a project directory, run the interactive setup wizard. It previews the exact YAML and destination before writing `.openprompting/config.yml`.
+Run this in a project directory:
 
 ```sh
 openprompting setup
 openprompting guide
 openprompting new feature
 openprompting doctor
-openprompting compare builder reviewer
 ```
 
-The compare example assumes profiles named `builder` and `reviewer`; the configuration below creates them. Normal commands do not access the network. Setup is the only V1 command that writes project state, and `doctor` is read-only.
+- `setup` opens a wizard for model/harness setups, profiles, defaults, and task routes. It previews the YAML and writes `.openprompting/config.yml` only after confirmation.
+- `guide` displays guidance for the resolved model and harness, including recommendations, cautions, evidence, and sources.
+- `new feature` renders an editable, structured prompt skeleton for feature work.
+- `doctor` runs read-only checks for configuration, routing, instruction files, package scripts, knowledge validity, and freshness.
 
-## Configure mixed-model work
+## New to agentic coding?
 
-The wizard supports multiple model/harness setups, named profiles, a default profile, and task routes. The resulting config schema is version 1:
+Traditional AI coding often looks like this:
+
+```text
+ask -> receive code -> manually apply
+```
+
+In agentic coding, a harness may inspect the repository, read project instructions, modify files, run commands, validate work, and iterate. The exact behavior depends on the harness and its permissions.
+
+A model performs reasoning and generation. A harness provides the environment around that model: repository access, shell tools, instruction files, permissions, and context handling.
+
+```text
+MODEL + HARNESS = SETUP
+```
+
+Prompting is not about magic words. Useful prompting gives the agent a clear goal, relevant context, requirements, constraints, acceptance criteria, and validation steps.
+
+| Term | Practical meaning |
+| --- | --- |
+| Model | The provider model whose reasoning and generation you are using. |
+| Harness | The coding-agent tool and environment around the model. |
+| Setup | One model paired with one harness. |
+| Profile | A user-defined name and optional role that points to a setup, such as `builder` or `reviewer`. |
+| Task | A recurring job type with its own guidance and template, such as `feature` or `review`. |
+
+openPrompting helps you keep these layers separate, then composes the relevant pieces for a real task.
+
+## The core idea
+
+The same task can need different guidance depending on the model and harness around it:
+
+```text
+MODEL
+  +
+HARNESS
+  +
+ TASK
+  ↓
+RELEVANT GUIDANCE
+```
+
+For a mixed-model workflow, user-defined profiles might look like this:
+
+```text
+builder  -> OpenAI GPT-6 Astra + Codex
+reviewer -> Anthropic Claude Sonnet 5 + Claude Code
+designer -> Google Gemini 3.8 Flash + Gemini CLI
+```
+
+These are routing labels chosen by the user. They do not imply that one model is objectively best for a particular role.
+
+## Mixed-model configuration
+
+The following is a valid V1 `.openprompting/config.yml`:
 
 ```yaml
 version: 1
+
 setups:
   gpt-codex:
     model: openai-gpt-6-astra
@@ -43,6 +102,7 @@ setups:
   gemini-design:
     model: google-gemini-3-8-flash
     harness: gemini-cli
+
 profiles:
   builder:
     uses: gpt-codex
@@ -53,6 +113,7 @@ profiles:
   designer:
     uses: gemini-design
     role: user-interface design
+
 defaults:
   profile: builder
   tasks:
@@ -60,80 +121,132 @@ defaults:
     ui: designer
 ```
 
-Validate a hand-edited config without changing it:
+- `setups` pair exactly one model with exactly one harness.
+- `profiles` give setups user-facing names and optional descriptive roles.
+- `defaults.profile` is the fallback profile.
+- `defaults.tasks` routes particular task types to profiles. In this example, `review` uses `reviewer`, `ui` uses `designer`, and other tasks fall back to `builder`.
+
+For `new <task>`, selection is deterministic: explicit `--profile`, then the task route, then the default profile, then the sole configured setup when exactly one exists.
+
+After hand-editing the file, validate it without changing it:
 
 ```sh
 openprompting setup --check
 ```
 
-Task selection uses explicit `--profile`, then a task route, then the default profile, then the sole configured setup when exactly one exists.
+## Commands
 
-## Learn and create
+V1 ships six commands:
 
-View guidance for the configured default, a profile, or a specific knowledge entry:
+| Command | Purpose | Example |
+| --- | --- | --- |
+| `help` | Show the command list and common examples. | `openprompting help` |
+| `setup` | Create or update `.openprompting/config.yml`; `--check` validates it. | `openprompting setup` |
+| `guide` | Display resolved model and harness guidance. | `openprompting guide --profile reviewer` |
+| `new` | Render a deterministic prompt skeleton for a task. | `openprompting new review --profile reviewer` |
+| `doctor` | Run read-only local diagnostics. | `openprompting doctor --profile reviewer` |
+| `compare` | Compare two profiles, setups, models, or harnesses using documented evidence. | `openprompting compare builder reviewer` |
 
-```sh
-openprompting guide
-openprompting guide --profile reviewer
-openprompting guide --model google-gemini-3-8-flash
-openprompting guide --harness gemini-cli
-openprompting guide codex
-```
+See the [full command reference](docs/commands/README.md) for selectors, resolution rules, output, and exit behavior.
 
-Guides identify the resolved model and harness and show recommendations, cautions, evidence class, verification date, and sources.
-
-Generate a copyable prompt skeleton:
+## Prompt generation
 
 ```sh
 openprompting new feature
-openprompting new review --profile reviewer
 ```
 
-The five V1 tasks are `feature`, `bug`, `review`, `refactor`, and `ui`. Output contains visible placeholders and never fabricates project facts.
+This command generates a structured starting point from the task guidance, the resolved model and harness recommendations, and the matching V1 template. It does not ask a model to write the final prompt. The output is editable: add the project context, requirements, constraints, acceptance criteria, and validation steps that are specific to your work.
 
-## Diagnose and compare
+Supported V1 tasks:
 
-Inspect config, routing, known instruction files, declared package scripts, knowledge validity, and freshness:
+- `feature`
+- `bug`
+- `review`
+- `refactor`
+- `ui`
 
-```sh
-openprompting doctor
-openprompting doctor --profile reviewer
-```
+Generated output uses placeholders rather than inventing project facts.
 
-Doctor reports `PASS`, `INFO`, `WARN`, and `FAIL`. It reads script declarations but never executes project scripts. Warnings alone do not fail the check.
+## Source-backed guidance and trust
 
-Compare profiles, setups, models, or harnesses:
+Every model, harness, and task entry carries evidence and source metadata. The V1 evidence classes are:
 
-```sh
-openprompting compare builder reviewer
-openprompting compare gpt-codex claude-review
-openprompting compare openai-gpt-6-astra anthropic-claude-sonnet-5
-openprompting compare codex gemini-cli
-```
+| Class | Meaning |
+| --- | --- |
+| `official` | Directly supported by first-party provider or harness documentation. |
+| `tested` | Reproduced by maintainers with a procedure recorded in the entry. |
+| `community` | Useful practice without first-party confirmation. |
+| `legacy` | Historical or migration advice that is not a current default. |
 
-Compare separates user-defined roles and routing from sourced project knowledge, identifies unavailable fields, shows provenance, and never infers a universal winner.
+Sources record an HTTPS URL and when it was last checked. Entries also record `last_verified`; `doctor` uses it as a maintenance signal:
+
+- 0–60 days: current
+- 61–120 days: review suggested
+- 121+ days: stale
+
+Freshness is a prompt to review an entry, not a correctness verdict. Guidance also keeps model behavior separate from harness behavior—for example, instruction-file discovery belongs to the harness that implements it.
+
+## Local-first / privacy
+
+After installation, normal V1 command execution is local and deterministic. It requires:
+
+- no account
+- no API key
+- no model call
+- no hosted backend or service
+- no telemetry
+- no network connection
+
+`setup` is the only V1 command that writes project state, and it writes the project-local `.openprompting/config.yml`. `doctor` is read-only and does not execute project scripts.
 
 ## Supported V1 knowledge
 
-- Models: OpenAI GPT-6 Astra, Anthropic Claude Sonnet 5, Google Gemini 3.8 Flash
-- Harnesses: Codex, Claude Code, Gemini CLI
-- Tasks: feature, bug, review, refactor, UI
+The package currently bundles 3 model entries, 3 harness entries, and 5 task entries.
 
-Knowledge is shipped with the package and validated locally. Each model and harness records evidence, sources, and a verification date. Freshness thresholds are 0–60 days current, 61–120 days review suggested, and 121+ days stale.
+### Models
+
+| Provider | ID | Display name |
+| --- | --- | --- |
+| OpenAI | `openai-gpt-6-astra` | GPT-6 Astra |
+| Anthropic | `anthropic-claude-sonnet-5` | Claude Sonnet 5 |
+| Google | `google-gemini-3-8-flash` | Gemini 3.8 Flash |
+
+### Harnesses
+
+| Harness | ID |
+| --- | --- |
+| Codex | `codex` |
+| Claude Code | `claude-code` |
+| Gemini CLI | `gemini-cli` |
+
+### Tasks
+
+`feature`, `bug`, `review`, `refactor`, and `ui`.
+
+## Contributing knowledge
+
+Adding and updating knowledge is intentionally accessible. Contributors can usually add or update a Markdown entry in one of these directories without modifying CLI routing:
+
+- `knowledge/models/`
+- `knowledge/harnesses/`
+- `knowledge/tasks/`
+
+Use the repository's source and evidence rules, record verification dates, and run `pnpm validate:knowledge`. The [contributing guide](CONTRIBUTING.md) explains the entry template, source checks, and pull request expectations.
 
 ## Documentation
 
 - [Command reference](docs/commands/README.md)
 - [Models, harnesses, setups, and profiles](docs/concepts/models-harnesses-and-profiles.md)
 - [Knowledge and evidence](docs/concepts/knowledge-and-evidence.md)
-- [Frozen V1 contracts](docs/release/V1_CONTRACTS.md)
-- [Pre-V1 migration](docs/release/MIGRATION.md)
-- [Contributing](CONTRIBUTING.md)
+- [V1 contracts](docs/release/V1_CONTRACTS.md)
+- [Migration from pre-V1 builds](docs/release/MIGRATION.md)
+- [v1.0.0 release notes](docs/release/RELEASE_NOTES_1.0.0.md)
 - [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
 
-## Development and release checks
+## Development
 
-This repository uses pnpm 10.34.5 or a compatible pnpm 10 release so development and release gates remain available on Node.js 20:
+Development requires Node.js 20 or newer and pnpm 10.34.5, or a compatible pnpm 10 release.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -146,4 +259,10 @@ pnpm verify:readme
 pnpm verify:package
 ```
 
-`verify:package` audits the tarball, installs it into an isolated temporary consumer project, and runs the V1 command journey through the installed artifact. See the [release notes](docs/release/RELEASE_NOTES_1.0.0.md) and [MIT License](LICENSE).
+Run `pnpm release:check` for the full V1 release gate.
+
+## Release
+
+openPrompting v1.0.0 is the first stable release, published as [`openprompting@1.0.0`](https://www.npmjs.com/package/openprompting) on npm. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories.
+
+openPrompting is available under the [MIT License](LICENSE).
