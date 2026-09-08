@@ -13,7 +13,7 @@ export const createProgram = (environment: CliEnvironment = processEnvironment()
   program
     .name('openprompting')
     .description('Source-backed guidance for AI models, harnesses, and recurring tasks')
-    .version('1.0.0')
+    .version('1.0.0-rc.1')
     .showHelpAfterError()
     .addHelpText(
       'after',

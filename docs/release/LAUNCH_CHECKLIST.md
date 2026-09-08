@@ -15,11 +15,11 @@
 
 | Platform | Evidence | Status |
 | --- | --- | --- |
-| Windows | Local Node 24 / pnpm 11 full release gate and isolated npm install, 2026-09-08 | PASS |
-| Linux | GitHub Actions on Node 20 and 22 | Pending first CI run |
-| macOS | GitHub Actions on Node 20 and 22 | Pending first CI run |
+| Windows | Local Node 24 plus GitHub Actions on Node 20 and 22 | PASS |
+| Linux | GitHub Actions on Node 20 and 22, run 34205284548 | PASS |
+| macOS | GitHub Actions on Node 20 and 22, run 34205284548 | PASS |
 
-Do not tag or publish V1 until the required Linux job passes. macOS is also configured because a hosted runner is available to the eventual public repository.
+The cross-platform release gate passed on 2026-09-08. Repeat it for the RC commit and stable promotion.
 
 ## Maintainer publication actions
 

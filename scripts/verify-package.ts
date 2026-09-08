@@ -14,6 +14,11 @@ interface PackResult {
   files: PackedFile[];
 }
 
+interface PackageManifest {
+  version: string;
+  bin: Record<string, string>;
+}
+
 const packageManagerInvocation = (command: string, args: string[]): [string, string[]] => {
   if (command === 'pnpm' && process.env.npm_execpath) {
     return [process.execPath, [process.env.npm_execpath, ...args]];
@@ -53,6 +58,9 @@ const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
 const scratch = await mkdtemp(path.join(tmpdir(), 'openprompting-package-'));
 
 try {
+  const sourcePackage = JSON.parse(
+    await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'),
+  ) as PackageManifest;
   const packedOutput = run('pnpm', ['pack', '--json', '--pack-destination', scratch], repositoryRoot);
   const packed = JSON.parse(packedOutput) as PackResult;
   const paths = new Set(packed.files.map((file) => file.path.replaceAll('\\', '/')));
@@ -97,7 +105,7 @@ try {
   const cli = path.join(consumer, 'node_modules', 'openprompting', 'dist', 'cli.js');
   const invoke = (...args: string[]): string => run(process.execPath, [cli, ...args], consumer);
   const version = invoke('--version');
-  if (!version.includes('1.0.0')) throw new Error(`Packed CLI version mismatch: ${version}`);
+  if (version.trim() !== sourcePackage.version) throw new Error(`Packed CLI version mismatch: ${version}`);
   invoke('help');
 
   const configDirectory = path.join(consumer, '.openprompting');
@@ -146,7 +154,10 @@ defaults:
   const installedPackage = JSON.parse(
     await readFile(path.join(consumer, 'node_modules', 'openprompting', 'package.json'), 'utf8'),
   ) as { version?: string; bin?: Record<string, string> };
-  if (installedPackage.version !== '1.0.0' || installedPackage.bin?.openprompting !== 'dist/cli.js') {
+  if (
+    installedPackage.version !== sourcePackage.version
+    || installedPackage.bin?.openprompting !== sourcePackage.bin.openprompting
+  ) {
     throw new Error('Installed package metadata does not match the frozen V1 contract.');
   }
 
