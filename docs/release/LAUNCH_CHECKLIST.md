@@ -18,18 +18,18 @@
 | Platform | Evidence | Status |
 | --- | --- | --- |
 | Windows | Local Node 24 plus GitHub Actions on Node 20 and 22 | PASS |
-| Linux | GitHub Actions on Node 20 and 22, run 34205284548 | PASS |
-| macOS | GitHub Actions on Node 20 and 22, run 34205284548 | PASS |
+| Linux | GitHub Actions on Node 20 and 22, stable tag run 34206210585 | PASS |
+| macOS | GitHub Actions on Node 20 and 22, stable tag run 34206210585 | PASS |
 
-The cross-platform release gate passed on 2026-09-08. Repeat it for the RC commit and stable promotion.
+The cross-platform release gate passed for the RC tag, stable commit, and stable tag on 2026-09-08.
 
-## Maintainer publication actions
+## Maintainer publication actions — complete
 
-These actions require the destination repository and registry credentials and are intentionally not performed by local validation:
+These external launch actions were verified on 2026-09-08:
 
-- [ ] Confirm the public repository description and topics.
-- [ ] Create and push the signed or annotated `v1.0.0` tag from the approved release commit.
-- [ ] Publish the npm package if npm is the selected registry.
-- [ ] Create the GitHub release using `RELEASE_NOTES_1.0.0.md`.
-- [ ] Run the installed quickstart once against the published registry artifact.
-- [ ] Open the first tracking issue from the repository's post-V1 backlog.
+- [x] Confirm the public repository description and topics.
+- [x] Create and push the annotated `v1.0.0` tag from the approved release commit.
+- [x] Publish `openprompting@1.0.0` publicly to npm with the `latest` tag.
+- [x] Create the GitHub release using `RELEASE_NOTES_1.0.0.md` and attach the package artifact.
+- [x] Run the installed CLI and programmatic API checks against the public npm artifact.
+- [x] Open the first tracking issue from the repository's post-V1 backlog.
