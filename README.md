@@ -133,7 +133,7 @@ Knowledge is shipped with the package and validated locally. Each model and harn
 
 ## Development and release checks
 
-This repository uses pnpm 11:
+This repository uses pnpm 10.34.5 or a compatible pnpm 10 release so development and release gates remain available on Node.js 20:
 
 ```sh
 pnpm install --frozen-lockfile

@@ -4,7 +4,7 @@ Thank you for helping keep openPrompting useful, inspectable, and current. Focus
 
 ## Development setup
 
-Requirements are Node.js 20 or newer and pnpm 11.
+Requirements are Node.js 20 or newer and pnpm 10.34.5 or a compatible pnpm 10 release.
 
 ```sh
 pnpm install --frozen-lockfile
