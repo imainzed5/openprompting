@@ -1,0 +1,36 @@
+name: Bug report
+description: Report reproducible CLI, config, packaging, or documentation behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include the command, actual result, and expected result.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: openPrompting version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Windows 11, Node 22, pnpm 11
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context

@@ -1,0 +1,16 @@
+export { createProgram } from './cli-program.js';
+export { compareEntities, resolveComparable } from './compare/resolve.js';
+export { renderComparison } from './compare/render.js';
+export { readConfig } from './config/read.js';
+export { setupProject } from './config/setup.js';
+export { validateConfig } from './config/validate.js';
+export { serializeConfig, writeConfig } from './config/write.js';
+export type { OpenPromptingConfig, ProfileDefinition, SetupDefinition } from './config/types.js';
+export { KnowledgeError, loadKnowledge } from './knowledge/load.js';
+export { runDoctor } from './doctor/run.js';
+export { renderDoctor } from './doctor/render.js';
+export type { Evidence, EvidenceClass, KnowledgeEntry, KnowledgeIndex, KnowledgeType, Source } from './knowledge/types.js';
+export { renderGuide } from './resolver/guide.js';
+export { renderTaskPrompt } from './resolver/prompt.js';
+export { resolveGuide, resolveTask } from './resolver/setup.js';
+export { loadTemplate } from './templates/load.js';

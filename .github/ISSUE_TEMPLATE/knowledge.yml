@@ -1,0 +1,43 @@
+name: Knowledge correction or addition
+description: Propose source-backed model, harness, or task guidance
+title: "[Knowledge]: "
+labels: [knowledge]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Entry type
+      options: [model, harness, task]
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+      description: State the narrow claim or correction.
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidence class
+      options: [official, tested, community, legacy]
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Original source or reproducible test
+    validations:
+      required: true
+  - type: input
+    id: verified
+    attributes:
+      label: Verification date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: textarea
+    id: replaces
+    attributes:
+      label: Does this replace older guidance?

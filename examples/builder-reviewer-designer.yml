@@ -1,0 +1,26 @@
+version: 1
+setups:
+  gpt-codex:
+    model: openai-gpt-6-astra
+    harness: codex
+  claude-review:
+    model: anthropic-claude-sonnet-5
+    harness: claude-code
+  gemini-design:
+    model: google-gemini-3-8-flash
+    harness: gemini-cli
+profiles:
+  builder:
+    uses: gpt-codex
+    role: implementation
+  reviewer:
+    uses: claude-review
+    role: review
+  designer:
+    uses: gemini-design
+    role: user-interface design
+defaults:
+  profile: builder
+  tasks:
+    review: reviewer
+    ui: designer

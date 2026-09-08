@@ -1,0 +1,5 @@
+version: 1
+setups:
+  primary:
+    model: openai-gpt-6-astra
+    harness: codex

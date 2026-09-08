@@ -1,0 +1,75 @@
+{
+  "name": "openprompting",
+  "version": "1.0.0",
+  "packageManager": "pnpm@11.19.0",
+  "description": "A source-backed, local-first field guide and CLI for AI models, harnesses, and recurring tasks.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "openprompting": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "docs/commands",
+    "docs/concepts",
+    "docs/release",
+    "examples",
+    "knowledge",
+    "schemas",
+    "templates",
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && pnpm validate:knowledge",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate:knowledge": "tsx scripts/validate-knowledge.ts",
+    "package:dry-run": "pnpm pack --dry-run",
+    "verify:readme": "tsx scripts/verify-readme.ts",
+    "verify:package": "tsx scripts/verify-package.ts",
+    "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:readme && pnpm verify:package"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": [
+    "prompting",
+    "cli",
+    "ai",
+    "codex",
+    "claude",
+    "gemini"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "commander": "^14.0.0",
+    "gray-matter": "^4.0.3",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^24.3.1",
+    "eslint": "^9.35.0",
+    "tsx": "^4.20.5",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openprompting.dev/schemas/harness.schema.json",
+  "title": "openPrompting harness knowledge metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "provider", "status", "last_verified", "evidence", "sources"],
+  "properties": {
+    "id": { "$ref": "#/$defs/id" },
+    "type": { "const": "harness" },
+    "provider": { "type": "string", "minLength": 1 },
+    "instruction_files": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" }
+    },
+    "status": { "enum": ["active", "legacy"] },
+    "last_verified": { "$ref": "#/$defs/date" },
+    "evidence": { "$ref": "#/$defs/evidenceList" },
+    "sources": { "$ref": "#/$defs/sourceList" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "date": { "type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "evidenceList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["class", "claim"],
+        "properties": {
+          "class": { "enum": ["official", "tested", "community", "legacy"] },
+          "claim": { "type": "string", "minLength": 1 },
+          "source": { "$ref": "#/$defs/id" },
+          "reproduction": { "type": "string", "minLength": 1 }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "class": { "const": "tested" } }, "required": ["class"] },
+            "then": { "required": ["reproduction"] },
+            "else": { "required": ["source"] }
+          }
+        ]
+      }
+    },
+    "sourceList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "url", "last_checked"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+          "last_checked": { "$ref": "#/$defs/date" }
+        }
+      }
+    }
+  }
+}
