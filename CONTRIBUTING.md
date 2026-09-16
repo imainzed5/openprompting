@@ -29,7 +29,14 @@ Knowledge is data, not resolver code. To add a harness or model:
 6. Record `last_verified` and each source's `last_checked` as `YYYY-MM-DD`.
 7. Run `pnpm validate:knowledge`, then the full gates above.
 
-Adding a model, harness, or task normally requires only one knowledge file. Do not edit the command router or resolver. Harness-specific instruction filenames belong in the harness frontmatter `instruction_files` list; this lets `doctor` discover them without core changes.
+Adding a model or harness normally requires one knowledge file. Adding a task requires both matching files:
+
+```text
+knowledge/tasks/<task>.md
+templates/<task>.md
+```
+
+The task ID must match the template filename because `openprompting new <task>` loads that template automatically. Do not edit the command router or resolver. Harness-specific instruction filenames belong in the harness frontmatter `instruction_files` list; this lets `doctor` discover them without core changes.
 
 Read the [knowledge format and evidence guide](docs/concepts/knowledge-and-evidence.md) and complete the [source verification checklist](docs/contributing/source-verification-checklist.md). The schema files in `schemas/` are authoritative for machine-readable metadata.
 

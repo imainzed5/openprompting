@@ -18,17 +18,27 @@ const config: OpenPromptingConfig = {
 beforeAll(async () => { knowledge = await loadKnowledge(); });
 
 describe('task prompt generation', () => {
-  it.each(['feature', 'bug', 'review', 'refactor', 'ui'])('renders the %s template with obvious placeholders', async (taskId) => {
-    const output = renderTaskPrompt(resolveTask(config, knowledge, taskId), await loadTemplate(taskId));
-    expect(output).toContain(`# openPrompting task: ${taskId}`);
-    expect(output).toContain('## Prompt skeleton');
-    expect(output).toContain('<!--');
+  it('renders every active task template with obvious placeholders', async () => {
+    const activeTasks = [...knowledge.tasks.values()].filter((entry) => entry.metadata.status === 'active');
+    expect(activeTasks.length).toBeGreaterThan(0);
+
+    for (const entry of activeTasks) {
+      const taskId = entry.metadata.id;
+      const output = renderTaskPrompt(resolveTask(config, knowledge, taskId), await loadTemplate(taskId));
+      expect(output).toContain(`# openPrompting task: ${taskId}`);
+      expect(output).toContain('## Prompt skeleton');
+      expect(output).toMatch(/<!--[\s\S]*-->/);
+    }
   });
 
-  it('is deterministic for identical inputs', async () => {
-    const resolved = resolveTask(config, knowledge, 'feature');
-    const template = await loadTemplate('feature');
-    expect(renderTaskPrompt(resolved, template)).toBe(renderTaskPrompt(resolved, template));
+  it('is deterministic for identical inputs across the active task catalog', async () => {
+    for (const entry of knowledge.tasks.values()) {
+      if (entry.metadata.status !== 'active') continue;
+      const taskId = entry.metadata.id;
+      const resolved = resolveTask(config, knowledge, taskId);
+      const template = await loadTemplate(taskId);
+      expect(renderTaskPrompt(resolved, template)).toBe(renderTaskPrompt(resolved, template));
+    }
   });
 
   it('contains no hidden network client in runtime source', async () => {

@@ -2,12 +2,21 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createProgram } from '../../src/cli-program.js';
+import { validateTaskTemplateIntegrity } from '../../src/knowledge/integrity.js';
 import { loadKnowledge } from '../../src/knowledge/load.js';
+
+const V1_MODEL_IDS = [
+  'openai-gpt-6-astra',
+  'anthropic-claude-sonnet-5',
+  'google-gemini-3-8-flash',
+];
+const V1_HARNESS_IDS = ['codex', 'claude-code', 'gemini-cli'];
+const V1_TASK_IDS = ['feature', 'bug', 'review', 'refactor', 'ui'];
 
 const readJson = async (file: string): Promise<Record<string, unknown>> =>
   JSON.parse(await readFile(resolve(file), 'utf8')) as Record<string, unknown>;
 
-describe('frozen V1 release contracts', () => {
+describe('V1 release contracts', () => {
   it('keeps package and CLI identity stable', async () => {
     const packageJson = await readJson('package.json');
     expect(packageJson.version).toBe('1.0.0');
@@ -43,17 +52,14 @@ describe('frozen V1 release contracts', () => {
     }
   });
 
-  it('ships complete initial ecosystem coverage with core sections', async () => {
+  it('preserves V1 seed entries while allowing additive catalog growth', async () => {
     const knowledge = await loadKnowledge();
-    expect([...knowledge.models.keys()]).toEqual([
-      'anthropic-claude-sonnet-5',
-      'google-gemini-3-8-flash',
-      'openai-gpt-6-astra',
-    ]);
-    expect([...knowledge.harnesses.keys()]).toEqual(['claude-code', 'codex', 'gemini-cli']);
-    expect([...knowledge.tasks.keys()]).toEqual(['bug', 'feature', 'refactor', 'review', 'ui']);
+    for (const id of V1_MODEL_IDS) expect(knowledge.models.has(id)).toBe(true);
+    for (const id of V1_HARNESS_IDS) expect(knowledge.harnesses.has(id)).toBe(true);
+    for (const id of V1_TASK_IDS) expect(knowledge.tasks.has(id)).toBe(true);
 
-    for (const entry of [...knowledge.models.values(), ...knowledge.harnesses.values()]) {
+    for (const entry of knowledge.all.values()) {
+      if (entry.metadata.status !== 'active') continue;
       expect(entry.body).toContain('## Summary');
       expect(entry.body).toContain('## Recommended');
       expect(entry.body).toContain('## Avoid');
@@ -62,6 +68,7 @@ describe('frozen V1 release contracts', () => {
       expect(entry.metadata.evidence.length).toBeGreaterThan(0);
       expect(entry.body).not.toMatch(/universal (winner|best)|best model/i);
     }
+    await validateTaskTemplateIntegrity(knowledge);
   });
 
   it('keeps runtime source free of network clients', async () => {

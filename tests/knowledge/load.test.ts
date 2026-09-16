@@ -33,6 +33,13 @@ sources:
 `;
 
 const schemasRoot = resolve('schemas');
+const V1_MODEL_IDS = [
+  'openai-gpt-6-astra',
+  'anthropic-claude-sonnet-5',
+  'google-gemini-3-8-flash',
+];
+const V1_HARNESS_IDS = ['codex', 'claude-code', 'gemini-cli'];
+const V1_TASK_IDS = ['feature', 'bug', 'review', 'refactor', 'ui'];
 
 afterEach(async () => {
   await Promise.all(temporaryRoots.splice(0).map((root) => rm(root, { recursive: true, force: true })));
@@ -41,13 +48,9 @@ afterEach(async () => {
 describe('knowledge loader', () => {
   it('enumerates all shipped knowledge by type', async () => {
     const index = await loadKnowledge();
-    expect([...index.models.keys()]).toEqual([
-      'anthropic-claude-sonnet-5',
-      'google-gemini-3-8-flash',
-      'openai-gpt-6-astra',
-    ]);
-    expect([...index.harnesses.keys()]).toEqual(['claude-code', 'codex', 'gemini-cli']);
-    expect([...index.tasks.keys()]).toEqual(['bug', 'feature', 'refactor', 'review', 'ui']);
+    for (const id of V1_MODEL_IDS) expect(index.models.has(id)).toBe(true);
+    for (const id of V1_HARNESS_IDS) expect(index.harnesses.has(id)).toBe(true);
+    for (const id of V1_TASK_IDS) expect(index.tasks.has(id)).toBe(true);
   });
 
   it('loads a newly added valid entry without router changes', async () => {

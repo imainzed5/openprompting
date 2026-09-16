@@ -1,9 +1,11 @@
 import { existsSync } from 'node:fs';
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loadKnowledge } from '../src/knowledge/load.js';
+import { validateTaskTemplateIntegrity } from '../src/knowledge/integrity.js';
 
 interface PackedFile {
   path: string;
@@ -57,13 +59,34 @@ const run = (command: string, args: string[], cwd: string): string => {
 const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
 const scratch = await mkdtemp(path.join(tmpdir(), 'openprompting-package-'));
 
+const listFilesUnder = async (directory: string): Promise<string[]> => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map(async (entry) => {
+    const filePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) return listFilesUnder(filePath);
+    if (entry.isFile()) return [path.relative(repositoryRoot, filePath).replaceAll(path.sep, '/')];
+    return [];
+  }));
+  return nested.flat().sort();
+};
+
 try {
+  const sourceKnowledge = await loadKnowledge();
+  await validateTaskTemplateIntegrity(sourceKnowledge);
+  const activeTaskIds = [...sourceKnowledge.tasks.values()]
+    .filter((entry) => entry.metadata.status === 'active')
+    .map((entry) => entry.metadata.id)
+    .sort();
   const sourcePackage = JSON.parse(
     await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'),
   ) as PackageManifest;
   const packedOutput = run('pnpm', ['pack', '--json', '--pack-destination', scratch], repositoryRoot);
   const packed = JSON.parse(packedOutput) as PackResult;
   const paths = new Set(packed.files.map((file) => file.path.replaceAll('\\', '/')));
+  const catalogDirectories = ['knowledge/models', 'knowledge/harnesses', 'knowledge/tasks', 'templates', 'schemas'];
+  const sourceCatalogFiles = (await Promise.all(
+    catalogDirectories.map((directory) => listFilesUnder(path.join(repositoryRoot, directory))),
+  )).flat();
   const required = [
     'dist/cli.js',
     'dist/index.js',
@@ -89,12 +112,18 @@ try {
     'docs/PLANNING.md',
     'node_modules/',
   ];
-  const missing = required.filter((item) => !paths.has(item));
+  const missing = [...new Set([
+    ...required.filter((item) => !paths.has(item)),
+    ...sourceCatalogFiles.filter((item) => !paths.has(item)),
+  ])];
+  const missingCatalogDirectories = catalogDirectories.filter(
+    (directory) => ![...paths].some((item) => item.startsWith(`${directory}/`)),
+  );
   const junk = [...paths].filter(
     (item) => item.endsWith('/.gitkeep') || forbidden.some((prefix) => item.startsWith(prefix)),
   );
-  if (missing.length > 0 || junk.length > 0) {
-    throw new Error(`Package audit failed. Missing: ${missing.join(', ') || 'none'}. Forbidden: ${junk.join(', ') || 'none'}.`);
+  if (missing.length > 0 || missingCatalogDirectories.length > 0 || junk.length > 0) {
+    throw new Error(`Package audit failed. Missing: ${missing.join(', ') || 'none'}. Missing catalog directories: ${missingCatalogDirectories.join(', ') || 'none'}. Forbidden: ${junk.join(', ') || 'none'}.`);
   }
 
   const consumer = path.join(scratch, 'consumer');
@@ -141,6 +170,7 @@ defaults:
   invoke('guide', 'codex');
   invoke('new', 'feature');
   invoke('new', 'review', '--profile', 'reviewer');
+  for (const taskId of activeTaskIds) invoke('new', taskId);
   invoke('doctor');
   invoke('doctor', '--profile', 'reviewer');
   const comparison = invoke('compare', 'builder', 'reviewer');
