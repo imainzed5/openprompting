@@ -4,7 +4,7 @@ openPrompting helps developers work more effectively with AI coding agents by pr
 
 It is a local, deterministic CLI for configuring setups and profiles, generating task-specific prompt skeletons, checking local setup health, and comparing documented model and harness choices. It is for developers using one coding-agent stack, switching among several, or contributing practical knowledge.
 
-Current release target: [`openprompting@1.1.0`](https://www.npmjs.com/package/openprompting)
+Current release: [`openprompting@1.1.0`](https://www.npmjs.com/package/openprompting)
 
 > openPrompting is not a collection of “1,000 awesome prompts.” It is a source-backed guidance/configuration layer built around **MODEL + HARNESS + TASK**.
 
@@ -278,6 +278,6 @@ Run `pnpm release:check` for the full V1.1 release gate.
 
 ## Release
 
-openPrompting v1.1.0 is an additive release target. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories carried forward from V1. The [release notes](docs/release/RELEASE_NOTES_1.1.0.md) summarize the expanded catalog and validation evidence.
+openPrompting v1.1.0 is an additive release. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories carried forward from V1. The [release notes](docs/release/RELEASE_NOTES_1.1.0.md) summarize the expanded catalog and validation evidence.
 
 openPrompting is available under the [MIT License](LICENSE).
