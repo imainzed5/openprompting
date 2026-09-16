@@ -12,6 +12,8 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
+pnpm verify:readme
+pnpm package:dry-run
 pnpm verify:package
 ```
 
@@ -28,6 +30,8 @@ Knowledge is data, not resolver code. To add a harness or model:
 5. Add an original source for every non-tested claim. For `tested` evidence, add a reproducible procedure instead.
 6. Record `last_verified` and each source's `last_checked` as `YYYY-MM-DD`.
 7. Run `pnpm validate:knowledge`, then the full gates above.
+
+Entries may optionally include a human-readable `display_name`. Keep it additive: IDs remain the stable values written to configuration and used by commands.
 
 Adding a model or harness normally requires one knowledge file. Adding a task requires both matching files:
 

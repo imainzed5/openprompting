@@ -4,7 +4,7 @@ openPrompting helps developers work more effectively with AI coding agents by pr
 
 It is a local, deterministic CLI for configuring setups and profiles, generating task-specific prompt skeletons, checking local setup health, and comparing documented model and harness choices. It is for developers using one coding-agent stack, switching among several, or contributing practical knowledge.
 
-Current stable release: [`openprompting@1.0.0`](https://www.npmjs.com/package/openprompting)
+Current release target: [`openprompting@1.1.0`](https://www.npmjs.com/package/openprompting)
 
 > openPrompting is not a collection of “1,000 awesome prompts.” It is a source-backed guidance/configuration layer built around **MODEL + HARNESS + TASK**.
 
@@ -153,17 +153,25 @@ See the [full command reference](docs/commands/README.md) for selectors, resolut
 
 ```sh
 openprompting new feature
+openprompting new planning
+openprompting new research
+openprompting new testing
+openprompting new migration
 ```
 
 This command generates a structured starting point from the task guidance, the resolved model and harness recommendations, and the matching V1 template. It does not ask a model to write the final prompt. The output is editable: add the project context, requirements, constraints, acceptance criteria, and validation steps that are specific to your work.
 
-Supported V1 tasks:
+Supported tasks:
 
 - `feature`
 - `bug`
 - `review`
 - `refactor`
 - `ui`
+- `planning`
+- `research`
+- `testing`
+- `migration`
 
 Generated output uses placeholders rather than inventing project facts.
 
@@ -199,9 +207,9 @@ After installation, normal V1 command execution is local and deterministic. It r
 
 `setup` is the only V1 command that writes project state, and it writes the project-local `.openprompting/config.yml`. `doctor` is read-only and does not execute project scripts.
 
-## Supported V1 knowledge
+## Supported V1.1 knowledge
 
-The package currently bundles 3 model entries, 3 harness entries, and 5 task entries.
+The package currently bundles 5 model entries, 7 harness entries, and 9 task entries. The original V1 IDs and task recipes remain available unchanged.
 
 ### Models
 
@@ -210,6 +218,8 @@ The package currently bundles 3 model entries, 3 harness entries, and 5 task ent
 | OpenAI | `openai-gpt-6-astra` | GPT-6 Astra |
 | Anthropic | `anthropic-claude-sonnet-5` | Claude Sonnet 5 |
 | Google | `google-gemini-3-8-flash` | Gemini 3.8 Flash |
+| OpenAI | `openai-gpt-5-3-codex` | GPT-5.3-Codex |
+| Anthropic | `anthropic-claude-opus-5` | Claude Opus 5 |
 
 ### Harnesses
 
@@ -218,10 +228,14 @@ The package currently bundles 3 model entries, 3 harness entries, and 5 task ent
 | Codex | `codex` |
 | Claude Code | `claude-code` |
 | Gemini CLI | `gemini-cli` |
+| Cursor | `cursor` |
+| GitHub Copilot CLI | `github-copilot-cli` |
+| OpenCode | `opencode` |
+| Aider | `aider` |
 
 ### Tasks
 
-`feature`, `bug`, `review`, `refactor`, and `ui`.
+`feature`, `bug`, `review`, `refactor`, `ui`, `planning`, `research`, `testing`, and `migration`.
 
 ## Contributing knowledge
 
@@ -241,6 +255,7 @@ Use the repository's source and evidence rules, record verification dates, and r
 - [V1 contracts](docs/release/V1_CONTRACTS.md)
 - [Migration from pre-V1 builds](docs/release/MIGRATION.md)
 - [v1.0.0 release notes](docs/release/RELEASE_NOTES_1.0.0.md)
+- [v1.1.0 release notes](docs/release/RELEASE_NOTES_1.1.0.md)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
 
@@ -259,10 +274,10 @@ pnpm verify:readme
 pnpm verify:package
 ```
 
-Run `pnpm release:check` for the full V1 release gate.
+Run `pnpm release:check` for the full V1.1 release gate.
 
 ## Release
 
-openPrompting v1.0.0 is the first stable release, published as [`openprompting@1.0.0`](https://www.npmjs.com/package/openprompting) on npm. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories.
+openPrompting v1.1.0 is an additive release target. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories carried forward from V1. The [release notes](docs/release/RELEASE_NOTES_1.1.0.md) summarize the expanded catalog and validation evidence.
 
 openPrompting is available under the [MIT License](LICENSE).

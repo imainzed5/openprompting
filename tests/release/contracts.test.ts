@@ -12,6 +12,9 @@ const V1_MODEL_IDS = [
 ];
 const V1_HARNESS_IDS = ['codex', 'claude-code', 'gemini-cli'];
 const V1_TASK_IDS = ['feature', 'bug', 'review', 'refactor', 'ui'];
+const V1_1_MODEL_IDS = ['openai-gpt-5-3-codex', 'anthropic-claude-opus-5'];
+const V1_1_HARNESS_IDS = ['cursor', 'github-copilot-cli', 'opencode', 'aider'];
+const V1_1_TASK_IDS = ['planning', 'research', 'testing', 'migration'];
 
 const readJson = async (file: string): Promise<Record<string, unknown>> =>
   JSON.parse(await readFile(resolve(file), 'utf8')) as Record<string, unknown>;
@@ -19,7 +22,7 @@ const readJson = async (file: string): Promise<Record<string, unknown>> =>
 describe('V1 release contracts', () => {
   it('keeps package and CLI identity stable', async () => {
     const packageJson = await readJson('package.json');
-    expect(packageJson.version).toBe('1.0.0');
+    expect(packageJson.version).toBe('1.1.0');
     expect(packageJson.bin).toEqual({ openprompting: 'dist/cli.js' });
 
     const program = createProgram();
@@ -49,6 +52,8 @@ describe('V1 release contracts', () => {
         'community',
         'legacy',
       ]);
+      const properties = schema.properties as Record<string, { type?: string }>;
+      expect(properties.display_name?.type).toBe('string');
     }
   });
 
@@ -57,6 +62,9 @@ describe('V1 release contracts', () => {
     for (const id of V1_MODEL_IDS) expect(knowledge.models.has(id)).toBe(true);
     for (const id of V1_HARNESS_IDS) expect(knowledge.harnesses.has(id)).toBe(true);
     for (const id of V1_TASK_IDS) expect(knowledge.tasks.has(id)).toBe(true);
+    for (const id of V1_1_MODEL_IDS) expect(knowledge.models.has(id)).toBe(true);
+    for (const id of V1_1_HARNESS_IDS) expect(knowledge.harnesses.has(id)).toBe(true);
+    for (const id of V1_1_TASK_IDS) expect(knowledge.tasks.has(id)).toBe(true);
 
     for (const entry of knowledge.all.values()) {
       if (entry.metadata.status !== 'active') continue;

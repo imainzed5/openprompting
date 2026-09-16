@@ -2,6 +2,8 @@
 
 Knowledge lives in three data directories: `knowledge/models`, `knowledge/harnesses`, and `knowledge/tasks`. Markdown frontmatter is validated by the matching JSON Schema in `schemas/`; prose provides the displayed guidance. IDs are globally unique lowercase kebab-case values.
 
+Entries may include an optional `display_name` for interactive and rendered output. It does not create an alias or change ID-based resolution.
+
 The V1 evidence vocabulary is frozen:
 
 - `official`: directly supported by first-party provider or harness documentation.

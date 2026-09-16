@@ -24,11 +24,15 @@ openprompting guide codex
 
 ## `openprompting new <task>`
 
-Renders a deterministic prompt skeleton for `feature`, `bug`, `review`, `refactor`, or `ui`. It does not invent project facts or call a model.
+Renders a deterministic prompt skeleton for `feature`, `bug`, `review`, `refactor`, `ui`, `planning`, `research`, `testing`, or `migration`. It does not invent project facts or call a model.
 
 ```sh
 openprompting new feature
 openprompting new review --profile reviewer
+openprompting new planning
+openprompting new research
+openprompting new testing
+openprompting new migration
 ```
 
 ## `openprompting doctor`

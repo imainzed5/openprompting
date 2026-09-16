@@ -2,6 +2,8 @@
 
 A **model** is the provider model whose prompting behavior is being described. A **harness** is the tool around a model: for example, Codex, Claude Code, or Gemini CLI. Instruction-file discovery, tool approval, and project traversal are harness behavior, not model behavior.
 
+Knowledge entries may expose an optional human-readable `display_name`; IDs remain the stable machine values used in configuration, routing, and command selectors.
+
 A **setup** pairs exactly one model with one harness in `.openprompting/config.yml`. A **profile** gives a setup a user-facing role such as `builder`, `reviewer`, or `designer`. Several profiles may reuse one setup.
 
 For `new <task>`, resolution is deterministic:

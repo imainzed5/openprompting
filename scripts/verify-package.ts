@@ -97,11 +97,16 @@ try {
     'docs/commands/README.md',
     'docs/concepts/knowledge-and-evidence.md',
     'docs/release/V1_CONTRACTS.md',
+    'docs/release/RELEASE_NOTES_1.1.0.md',
     'schemas/config.schema.json',
     'templates/feature.md',
+    'templates/planning.md',
     'knowledge/models/google-gemini-3-8-flash.md',
+    'knowledge/models/openai-gpt-5-3-codex.md',
     'knowledge/harnesses/gemini-cli.md',
+    'knowledge/harnesses/aider.md',
     'knowledge/tasks/feature.md',
+    'knowledge/tasks/planning.md',
   ];
   const forbidden = [
     'src/',
@@ -166,11 +171,17 @@ defaults:
   invoke('guide');
   invoke('guide', '--profile', 'reviewer');
   invoke('guide', '--model', 'google-gemini-3-8-flash');
+  invoke('guide', '--model', 'openai-gpt-5-3-codex');
   invoke('guide', '--harness', 'gemini-cli');
+  invoke('guide', '--harness', 'aider');
+  invoke('guide', '--harness', 'opencode');
   invoke('guide', 'codex');
   invoke('new', 'feature');
   invoke('new', 'review', '--profile', 'reviewer');
-  for (const taskId of activeTaskIds) invoke('new', taskId);
+  for (const taskId of activeTaskIds) {
+    invoke('new', taskId);
+    invoke('new', taskId, '--profile', 'builder');
+  }
   invoke('doctor');
   invoke('doctor', '--profile', 'reviewer');
   const comparison = invoke('compare', 'builder', 'reviewer');
@@ -179,7 +190,9 @@ defaults:
   }
   invoke('compare', 'gpt-codex', 'claude-review');
   invoke('compare', 'openai-gpt-6-astra', 'anthropic-claude-sonnet-5');
+  invoke('compare', 'openai-gpt-5-3-codex', 'anthropic-claude-opus-5');
   invoke('compare', 'codex', 'gemini-cli');
+  invoke('compare', 'cursor', 'aider');
 
   const installedPackage = JSON.parse(
     await readFile(path.join(consumer, 'node_modules', 'openprompting', 'package.json'), 'utf8'),

@@ -1,6 +1,6 @@
 {
   "name": "openprompting",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "packageManager": "pnpm@10.34.5",
   "description": "A source-backed, local-first field guide and CLI for AI models, harnesses, and recurring tasks.",
   "type": "module",
@@ -38,7 +38,7 @@
     "package:dry-run": "pnpm pack --dry-run",
     "verify:readme": "tsx scripts/verify-readme.ts",
     "verify:package": "tsx scripts/verify-package.ts",
-    "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:readme && pnpm verify:package"
+    "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:readme && pnpm package:dry-run && pnpm verify:package"
   },
   "engines": {
     "node": ">=20"

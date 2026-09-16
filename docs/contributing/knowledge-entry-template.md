@@ -5,6 +5,7 @@ Copy this file to the matching `knowledge/<type>/` directory, remove the comment
 ```markdown
 ---
 id: provider-entry-id
+display_name: Human-readable label
 type: model
 provider: provider
 status: active

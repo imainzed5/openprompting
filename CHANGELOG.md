@@ -2,6 +2,30 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.1.0] - 2026-09-17
+
+### Added
+
+- Source-backed model guidance for GPT-5.3-Codex and Claude Opus 5.
+- Harness guidance for Cursor, GitHub Copilot CLI, OpenCode, and Aider.
+- Planning, research, testing, and migration task recipes with matching templates.
+- Task/template integrity checks, dynamic catalog tests, and expanded packed-artifact coverage.
+- Optional `display_name` metadata for readable setup and rendered guidance labels.
+
+### Changed
+
+- Deepened GPT-6 Astra, Claude Sonnet 5, and Gemini 3.8 Flash guidance from current first-party documentation.
+- Setup choices and guide/compare output now expose readable catalog labels while preserving stable IDs.
+- The release gate now includes package dry-run verification.
+
+### Fixed
+
+- Catalog growth no longer requires hard-coded task-template or package-entry lists for active entries.
+
+### Compatibility
+
+- Preserved the `openprompting` executable, six V1 commands, config schema `version: 1`, evidence vocabulary, and all V1 seed IDs.
+
 ## [1.0.0] - 2026-09-08
 
 ### Added
