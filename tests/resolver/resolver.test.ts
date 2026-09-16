@@ -54,12 +54,12 @@ describe('guide resolution', () => {
   });
 
   it('renders ownership, evidence, sources, and freshness separately', () => {
-    const output = renderGuide(resolveGuide(mixedConfig(), knowledge, {}), new Date('2026-09-10T00:00:00Z'));
+    const output = renderGuide(resolveGuide(mixedConfig(), knowledge, {}), new Date('2026-09-20T00:00:00Z'));
     expect(output).toContain('## Model guidance: openai-gpt-6-astra');
     expect(output).toContain('## Harness guidance: codex');
     expect(output).toContain('### Evidence');
     expect(output).toContain('### Sources');
-    expect(output).toContain('2026-09-07 — current (3 days old)');
+    expect(output).toContain('2026-09-17 — current (3 days old)');
   });
 
   it('keeps model guidance stable when the harness changes', () => {
