@@ -49,7 +49,7 @@ describe('guide resolution', () => {
 
   it('reports valid choices for unknown identifiers', () => {
     expect(() => resolveGuide(undefined, knowledge, { model: 'missing' })).toThrow(
-      /Valid models: anthropic-claude-sonnet-5, google-gemini-3-8-flash, openai-gpt-6-astra/,
+      `Valid models: ${[...knowledge.models.keys()].sort().join(', ')}`,
     );
   });
 
