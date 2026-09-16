@@ -55,8 +55,8 @@ describe('guide resolution', () => {
 
   it('renders ownership, evidence, sources, and freshness separately', () => {
     const output = renderGuide(resolveGuide(mixedConfig(), knowledge, {}), new Date('2026-09-20T00:00:00Z'));
-    expect(output).toContain('## Model guidance: openai-gpt-6-astra');
-    expect(output).toContain('## Harness guidance: codex');
+    expect(output).toContain('## Model guidance: GPT-6 Astra (ID: openai-gpt-6-astra)');
+    expect(output).toContain('## Harness guidance: Codex (ID: codex)');
     expect(output).toContain('### Evidence');
     expect(output).toContain('### Sources');
     expect(output).toContain('2026-09-17 — current (3 days old)');
@@ -67,8 +67,8 @@ describe('guide resolution', () => {
     const modelWithClaudeCode = renderGuide(resolveGuide(undefined, knowledge, { model: 'openai-gpt-6-astra', harness: 'claude-code' }));
     const modelSection = (text: string): string => text.split('## Model guidance:')[1]!.split('## Harness guidance:')[0]!;
     expect(modelSection(modelWithCodex)).toBe(modelSection(modelWithClaudeCode));
-    expect(modelWithCodex).toContain('Harness guidance: codex');
-    expect(modelWithClaudeCode).toContain('Harness guidance: claude-code');
+    expect(modelWithCodex).toContain('Harness guidance: Codex (ID: codex)');
+    expect(modelWithClaudeCode).toContain('Harness guidance: Claude Code (ID: claude-code)');
   });
 });
 

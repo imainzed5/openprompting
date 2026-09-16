@@ -1,5 +1,6 @@
 ---
 id: openai-gpt-6-astra
+display_name: GPT-6 Astra
 type: model
 provider: openai
 status: active

@@ -2,6 +2,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
+import { displayName } from '../../src/knowledge/display.js';
 import { loadKnowledge } from '../../src/knowledge/load.js';
 
 const temporaryRoots: string[] = [];
@@ -58,6 +59,15 @@ describe('knowledge loader', () => {
     await writeFile(join(root, 'models', 'new-model.md'), validEntry('new-model', 'model'));
     const index = await loadKnowledge({ knowledgeRoot: root, schemasRoot });
     expect(index.models.has('new-model')).toBe(true);
+  });
+
+  it('falls back to the stable ID when display_name is absent', async () => {
+    const root = await newKnowledgeRoot();
+    await writeFile(join(root, 'models', 'unnamed-model.md'), validEntry('unnamed-model', 'model'));
+    const index = await loadKnowledge({ knowledgeRoot: root, schemasRoot });
+    const entry = index.models.get('unnamed-model');
+    expect(entry).toBeDefined();
+    expect(displayName(entry!.metadata)).toBe('unnamed-model');
   });
 
   it('discovers a contributor-added harness without resolver changes', async () => {

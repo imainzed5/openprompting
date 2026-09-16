@@ -7,6 +7,7 @@
   "required": ["id", "type", "status", "last_verified", "evidence", "sources"],
   "properties": {
     "id": { "$ref": "#/$defs/id" },
+    "display_name": { "type": "string", "minLength": 1 },
     "type": { "const": "task" },
     "status": { "enum": ["active", "legacy"] },
     "last_verified": { "$ref": "#/$defs/date" },

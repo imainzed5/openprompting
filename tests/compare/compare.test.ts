@@ -29,6 +29,7 @@ describe('evidence-aware comparison', () => {
     expect(output).toContain('## User-defined configuration');
     expect(output).toContain('| Role | implementation | review |');
     expect(output).toContain('## Source-backed project knowledge');
+    expect(output).toContain('| Model display name | GPT-6 Astra | Claude Sonnet 5 |');
     expect(output).toContain('No universal winner is inferred.');
   });
 
@@ -40,6 +41,7 @@ describe('evidence-aware comparison', () => {
     const output = renderComparison(compareEntities('codex', 'claude-code', undefined, knowledge));
     expect(output).toContain('codex (harness)');
     expect(output).toContain('Instruction files');
+    expect(output).toContain('| Display name | Codex | Claude Code |');
     expect(output).toContain('**official**');
     expect(output).toContain('Source:');
   });

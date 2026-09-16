@@ -1,5 +1,6 @@
 ---
 id: openai-gpt-5-3-codex
+display_name: GPT-5.3-Codex
 type: model
 provider: openai
 status: active

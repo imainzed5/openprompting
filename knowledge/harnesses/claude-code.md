@@ -1,5 +1,6 @@
 ---
 id: claude-code
+display_name: Claude Code
 type: harness
 provider: anthropic
 instruction_files:

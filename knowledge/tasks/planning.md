@@ -1,5 +1,6 @@
 ---
 id: planning
+display_name: Planning
 type: task
 status: active
 last_verified: 2026-09-17

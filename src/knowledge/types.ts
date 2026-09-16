@@ -20,6 +20,7 @@ export interface Evidence {
 
 interface BaseMetadata {
   id: string;
+  display_name?: string;
   type: KnowledgeType;
   status: 'active' | 'legacy';
   last_verified: string;

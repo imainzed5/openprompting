@@ -84,17 +84,17 @@ describe('Phase B CLI journeys', () => {
   it('renders the default configured guide with evidence and sources', async () => {
     const result = await run(configuredRoot, ['guide']);
     expect(result.stdout).toContain('Profile: builder');
-    expect(result.stdout).toContain('Model guidance: openai-gpt-6-astra');
-    expect(result.stdout).toContain('Harness guidance: codex');
+    expect(result.stdout).toContain('Model guidance: GPT-6 Astra (ID: openai-gpt-6-astra)');
+    expect(result.stdout).toContain('Harness guidance: Codex (ID: codex)');
     expect(result.stdout).toContain('### Evidence');
     expect(result.stdout).toContain('### Sources');
   });
 
   it('supports explicit profile and direct harness guide selectors', async () => {
-    expect((await run(configuredRoot, ['guide', '--profile', 'reviewer'])).stdout).toContain('Model: anthropic-claude-sonnet-5');
+    expect((await run(configuredRoot, ['guide', '--profile', 'reviewer'])).stdout).toContain('Model: Claude Sonnet 5 (ID: anthropic-claude-sonnet-5)');
     const harness = await run(configuredRoot, ['guide', '--harness', 'codex']);
     expect(harness.stdout).not.toContain('## Model guidance');
-    expect(harness.stdout).toContain('## Harness guidance: codex');
+    expect(harness.stdout).toContain('## Harness guidance: Codex (ID: codex)');
   });
 
   it('fails clearly for unknown guide identifiers', async () => {

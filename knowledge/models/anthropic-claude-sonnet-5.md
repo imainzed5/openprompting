@@ -1,5 +1,6 @@
 ---
 id: anthropic-claude-sonnet-5
+display_name: Claude Sonnet 5
 type: model
 provider: anthropic
 status: active

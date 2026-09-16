@@ -1,5 +1,6 @@
 ---
 id: anthropic-claude-opus-5
+display_name: Claude Opus 5
 type: model
 provider: anthropic
 status: active

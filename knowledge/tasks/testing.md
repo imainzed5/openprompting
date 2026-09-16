@@ -1,5 +1,6 @@
 ---
 id: testing
+display_name: Testing
 type: task
 status: active
 last_verified: 2026-09-17

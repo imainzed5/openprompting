@@ -1,5 +1,6 @@
 ---
 id: migration
+display_name: Migration
 type: task
 status: active
 last_verified: 2026-09-17

@@ -1,5 +1,6 @@
 ---
 id: feature
+display_name: Feature
 type: task
 status: active
 last_verified: 2026-09-07

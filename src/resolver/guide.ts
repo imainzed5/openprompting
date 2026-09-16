@@ -1,4 +1,5 @@
 import type { Evidence, KnowledgeEntry, KnowledgeMetadata, Source } from '../knowledge/types.js';
+import { displayReference } from '../knowledge/display.js';
 import { knowledgeFreshness } from '../knowledge/freshness.js';
 import { markdownSection } from './markdown.js';
 import type { ResolvedSelection } from './setup.js';
@@ -23,7 +24,7 @@ const renderEntry = (label: string, entry: KnowledgeEntry<KnowledgeMetadata>, no
       return content ? `### ${heading}\n\n${content}` : undefined;
     })
     .filter((value): value is string => Boolean(value));
-  return `## ${label} guidance: ${entry.metadata.id}\n\n${sections.join('\n\n')}\n\n### Evidence\n\n${renderEvidence(entry.metadata.evidence)}\n\n### Sources\n\n${renderSources(entry.metadata.sources)}\n\n### Freshness\n\n${freshness(entry.metadata.last_verified, now)}`;
+  return `## ${label} guidance: ${displayReference(entry.metadata)}\n\n${sections.join('\n\n')}\n\n### Evidence\n\n${renderEvidence(entry.metadata.evidence)}\n\n### Sources\n\n${renderSources(entry.metadata.sources)}\n\n### Freshness\n\n${freshness(entry.metadata.last_verified, now)}`;
 };
 
 export const renderGuide = (resolved: ResolvedSelection, now = new Date()): string => {
@@ -31,8 +32,8 @@ export const renderGuide = (resolved: ResolvedSelection, now = new Date()): stri
     resolved.profileId ? `- Profile: ${resolved.profileId}` : undefined,
     resolved.role ? `- Role: ${resolved.role}` : undefined,
     resolved.setupId ? `- Setup: ${resolved.setupId}` : undefined,
-    resolved.model ? `- Model: ${resolved.model.metadata.id}` : undefined,
-    resolved.harness ? `- Harness: ${resolved.harness.metadata.id}` : undefined,
+    resolved.model ? `- Model: ${displayReference(resolved.model.metadata)}` : undefined,
+    resolved.harness ? `- Harness: ${displayReference(resolved.harness.metadata)}` : undefined,
   ].filter((value): value is string => Boolean(value));
   const entries = [
     resolved.model ? renderEntry('Model', resolved.model, now) : undefined,

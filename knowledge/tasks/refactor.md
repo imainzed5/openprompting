@@ -1,5 +1,6 @@
 ---
 id: refactor
+display_name: Refactor
 type: task
 status: active
 last_verified: 2026-09-07

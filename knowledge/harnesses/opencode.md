@@ -1,5 +1,6 @@
 ---
 id: opencode
+display_name: OpenCode
 type: harness
 provider: opencode
 instruction_files:

@@ -1,4 +1,5 @@
-import type { KnowledgeIndex } from '../knowledge/types.js';
+import { displayLabel } from '../knowledge/display.js';
+import type { KnowledgeEntry, KnowledgeIndex, KnowledgeMetadata } from '../knowledge/types.js';
 import { ConfigError, SetupCancelledError } from './errors.js';
 import { configPathFor } from './path.js';
 import type { SetupPrompter } from './prompter.js';
@@ -20,6 +21,10 @@ const askId = async (prompter: SetupPrompter, message: string, initial: string):
   return value;
 };
 
+const knowledgeChoices = <T extends KnowledgeEntry<KnowledgeMetadata>>(entries: Iterable<T>) => [...entries]
+  .sort((left, right) => left.metadata.id.localeCompare(right.metadata.id))
+  .map((entry) => ({ value: entry.metadata.id, label: displayLabel(entry.metadata) }));
+
 export interface SetupResult {
   config: OpenPromptingConfig;
   path: string;
@@ -37,8 +42,8 @@ export const setupProject = async (
 
   let addAnother = true;
   while (addAnother) {
-    const model = required(await prompter.select('Select a model', [...knowledge.models.keys()].sort().map((value) => ({ value }))));
-    const harness = required(await prompter.select('Select a harness', [...knowledge.harnesses.keys()].sort().map((value) => ({ value }))));
+    const model = required(await prompter.select('Select a model', knowledgeChoices(knowledge.models.values())));
+    const harness = required(await prompter.select('Select a harness', knowledgeChoices(knowledge.harnesses.values())));
     const setupId = await askId(prompter, 'Setup ID', `${model}-${harness}`);
     if (config.setups[setupId] && !required(await prompter.confirm(`Replace existing setup '${setupId}'?`, false))) {
       throw new SetupCancelledError();

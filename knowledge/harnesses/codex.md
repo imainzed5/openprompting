@@ -1,5 +1,6 @@
 ---
 id: codex
+display_name: Codex
 type: harness
 provider: openai
 instruction_files:

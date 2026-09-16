@@ -1,5 +1,6 @@
 ---
 id: aider
+display_name: Aider
 type: harness
 provider: aider
 status: active

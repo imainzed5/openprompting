@@ -1,5 +1,6 @@
 ---
 id: cursor
+display_name: Cursor
 type: harness
 provider: cursor
 instruction_files:

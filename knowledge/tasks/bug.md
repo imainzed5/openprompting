@@ -1,5 +1,6 @@
 ---
 id: bug
+display_name: Bug
 type: task
 status: active
 last_verified: 2026-09-07

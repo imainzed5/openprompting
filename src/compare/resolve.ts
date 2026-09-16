@@ -1,4 +1,5 @@
 import type { OpenPromptingConfig } from '../config/types.js';
+import { displayName } from '../knowledge/display.js';
 import type { KnowledgeEntry, KnowledgeIndex, KnowledgeMetadata } from '../knowledge/types.js';
 import { ResolutionError } from '../resolver/errors.js';
 import { resolveGuide, resolveSetup } from '../resolver/setup.js';
@@ -18,12 +19,14 @@ const attachedEntries = (model?: KnowledgeEntry, harness?: KnowledgeEntry): Know
 const resolvedKnowledgeFields = (model?: KnowledgeEntry, harness?: KnowledgeEntry): Record<string, string> => ({
   ...(model ? {
     Model: model.metadata.id,
+    'Model display name': displayName(model.metadata),
     'Model provider': 'provider' in model.metadata ? model.metadata.provider : 'unavailable',
     'Model last verified': model.metadata.last_verified,
     'Model evidence': evidenceClasses(model),
   } : {}),
   ...(harness ? {
     Harness: harness.metadata.id,
+    'Harness display name': displayName(harness.metadata),
     'Harness provider': 'provider' in harness.metadata ? harness.metadata.provider : 'unavailable',
     'Harness last verified': harness.metadata.last_verified,
     'Harness evidence': evidenceClasses(harness),
@@ -79,6 +82,7 @@ export const resolveComparable = (
       userFields: {},
       knowledgeFields: {
         Model: id,
+        'Display name': displayName(model.metadata),
         Provider: model.metadata.provider,
         'Last verified': model.metadata.last_verified,
         'Evidence classes': evidenceClasses(model),
@@ -95,6 +99,7 @@ export const resolveComparable = (
       userFields: {},
       knowledgeFields: {
         Harness: id,
+        'Display name': displayName(harness.metadata),
         Provider: harness.metadata.provider,
         'Last verified': harness.metadata.last_verified,
         'Evidence classes': evidenceClasses(harness),

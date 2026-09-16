@@ -1,5 +1,6 @@
 ---
 id: ui
+display_name: UI
 type: task
 status: active
 last_verified: 2026-09-07

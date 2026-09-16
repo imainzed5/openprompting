@@ -35,6 +35,7 @@ const baseConfig = (): OpenPromptingConfig => ({
 
 class ScriptedPrompter implements SetupPrompter {
   public readonly previews: string[] = [];
+  public readonly selectionLabels: string[][] = [];
   public constructor(
     private readonly inputs: Array<string | undefined>,
     private readonly confirmations: Array<boolean | undefined>,
@@ -42,7 +43,9 @@ class ScriptedPrompter implements SetupPrompter {
   ) {}
   public async input(): Promise<string | undefined> { return this.inputs.shift(); }
   public async confirm(): Promise<boolean | undefined> { return this.confirmations.shift(); }
-  public async select(_message: string, choices: PromptChoice[]): Promise<string | undefined> {
+  public async select(message: string, choices: PromptChoice[]): Promise<string | undefined> {
+    void message;
+    this.selectionLabels.push(choices.map((choice) => choice.label ?? choice.value));
     const value = this.selections.shift();
     if (value !== undefined && !choices.some((choice) => choice.value === value)) throw new Error(`Invalid scripted choice: ${value}`);
     return value;
@@ -108,6 +111,19 @@ describe('config contract', () => {
     expect(result.config.setups).toHaveProperty('claude-review');
     expect(result.config.defaults?.tasks?.review).toBe('reviewer');
     await expect(readConfig(root, knowledge)).resolves.toEqual(result.config);
+  });
+
+  it('shows readable metadata labels while preserving selected IDs', async () => {
+    const root = await project();
+    const prompts = new ScriptedPrompter(
+      ['readable-setup'],
+      [false, false, true],
+      ['openai-gpt-6-astra', 'codex'],
+    );
+    const result = await setupProject(root, knowledge, prompts);
+    expect(prompts.selectionLabels[0]).toContain('GPT-6 Astra (openai-gpt-6-astra)');
+    expect(prompts.selectionLabels[1]).toContain('Codex (codex)');
+    expect(result.config.setups['readable-setup']).toEqual({ model: 'openai-gpt-6-astra', harness: 'codex' });
   });
 
   it('edits an existing config without discarding unrelated information', async () => {

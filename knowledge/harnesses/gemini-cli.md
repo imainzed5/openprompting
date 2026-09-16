@@ -1,5 +1,6 @@
 ---
 id: gemini-cli
+display_name: Gemini CLI
 type: harness
 provider: google
 instruction_files:

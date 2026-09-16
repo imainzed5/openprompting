@@ -7,6 +7,7 @@
   "required": ["id", "type", "provider", "status", "last_verified", "evidence", "sources"],
   "properties": {
     "id": { "$ref": "#/$defs/id" },
+    "display_name": { "type": "string", "minLength": 1 },
     "type": { "const": "model" },
     "provider": { "type": "string", "minLength": 1 },
     "status": { "enum": ["active", "legacy"] },

@@ -1,5 +1,6 @@
 ---
 id: github-copilot-cli
+display_name: GitHub Copilot CLI
 type: harness
 provider: github
 instruction_files:

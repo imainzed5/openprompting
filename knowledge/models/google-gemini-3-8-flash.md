@@ -1,5 +1,6 @@
 ---
 id: google-gemini-3-8-flash
+display_name: Gemini 3.8 Flash
 type: model
 provider: google
 status: active
