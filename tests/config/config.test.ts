@@ -99,7 +99,7 @@ describe('config contract', () => {
         'openai-gpt-6-astra', 'codex',
         'anthropic-claude-sonnet-5', 'claude-code',
         'builder',
-        'builder', 'builder', 'builder', 'reviewer', 'builder',
+        'builder', 'builder', 'builder', 'builder', 'builder', 'builder', 'reviewer', 'builder', 'builder',
       ],
     );
     const result = await setupProject(root, knowledge, prompts);
