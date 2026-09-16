@@ -97,7 +97,7 @@ try {
     'docs/commands/README.md',
     'docs/concepts/knowledge-and-evidence.md',
     'docs/release/V1_CONTRACTS.md',
-    'docs/release/RELEASE_NOTES_1.1.0.md',
+    'docs/release/RELEASE_NOTES_1.1.1.md',
     'schemas/config.schema.json',
     'templates/feature.md',
     'templates/planning.md',

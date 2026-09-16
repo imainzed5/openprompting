@@ -2,6 +2,12 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.1.1] - 2026-09-17
+
+### Fixed
+
+- Updated README release-status wording and current-release links for the public patch release.
+
 ## [1.1.0] - 2026-09-17
 
 ### Added
