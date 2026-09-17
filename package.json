@@ -38,6 +38,7 @@
     "package:dry-run": "pnpm pack --dry-run",
     "verify:readme": "tsx scripts/verify-readme.ts",
     "verify:package": "tsx scripts/verify-package.ts",
+    "website:build": "pnpm --dir website build",
     "release:check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm verify:readme && pnpm package:dry-run && pnpm verify:package"
   },
   "engines": {
