@@ -15,8 +15,9 @@ const docs = [
   ['Knowledge and evidence', 'docs/concepts/knowledge-and-evidence.md', 'Entry format, evidence classes, and sourcing rules.'],
   ['V1 contracts', 'docs/release/V1_CONTRACTS.md', 'Stable executable, commands, config schema, and vocabulary.'],
   ['Migration from pre-V1 builds', 'docs/release/MIGRATION.md', 'What changed and how to move forward.'],
-  ['Release notes 1.1.0', 'docs/release/RELEASE_NOTES_1.1.0.md', 'Expanded catalog: models, harnesses, tasks.'],
+  ['Release notes 1.1.2', 'docs/release/RELEASE_NOTES_1.1.2.md', 'Package metadata and documentation patch.'],
   ['Release notes 1.1.1', 'docs/release/RELEASE_NOTES_1.1.1.md', 'Documentation patch in the 1.1 line.'],
+  ['Release notes 1.1.0', 'docs/release/RELEASE_NOTES_1.1.0.md', 'Expanded catalog: models, harnesses, tasks.'],
   ['Changelog', 'CHANGELOG.md', 'All notable changes, SemVer.'],
   ['Contributing', 'CONTRIBUTING.md', 'Entry template, source checks, PR expectations.'],
 ] as const;

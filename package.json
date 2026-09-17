@@ -1,6 +1,6 @@
 {
   "name": "openprompting",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "packageManager": "pnpm@10.34.5",
   "description": "A source-backed, local-first field guide and CLI for AI models, harnesses, and recurring tasks.",
   "type": "module",
@@ -60,7 +60,7 @@
     "type": "git",
     "url": "git+https://github.com/imainzed5/openprompting.git"
   },
-  "homepage": "https://github.com/imainzed5/openprompting#readme",
+  "homepage": "https://imainzed5.github.io/openprompting/",
   "bugs": {
     "url": "https://github.com/imainzed5/openprompting/issues"
   },

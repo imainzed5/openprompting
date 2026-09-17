@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
 const requiredSnippets = [
   'npm install --global openprompting',
-  'openprompting@1.1.1',
+  'openprompting@1.1.2',
   'openprompting setup',
   'openprompting guide',
   'openprompting new feature',
@@ -21,7 +21,7 @@ const requiredSnippets = [
   'aider',
   'google-gemini-3-8-flash',
   'gemini-cli',
-  'RELEASE_NOTES_1.1.1.md',
+  'RELEASE_NOTES_1.1.2.md',
 ];
 
 const missing = requiredSnippets.filter((snippet) => !readme.includes(snippet));

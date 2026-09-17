@@ -4,7 +4,9 @@ openPrompting helps developers work more effectively with AI coding agents by pr
 
 It is a local, deterministic CLI for configuring setups and profiles, generating task-specific prompt skeletons, checking local setup health, and comparing documented model and harness choices. It is for developers using one coding-agent stack, switching among several, or contributing practical knowledge.
 
-Current release: [`openprompting@1.1.1`](https://www.npmjs.com/package/openprompting)
+Current release: [`openprompting@1.1.2`](https://www.npmjs.com/package/openprompting)
+
+Project links: [Website](https://imainzed5.github.io/openprompting/) · [npm](https://www.npmjs.com/package/openprompting) · [GitHub Releases](https://github.com/imainzed5/openprompting/releases)
 
 > openPrompting is not a collection of “1,000 awesome prompts.” It is a source-backed guidance/configuration layer built around **MODEL + HARNESS + TASK**.
 
@@ -255,8 +257,9 @@ Use the repository's source and evidence rules, record verification dates, and r
 - [V1 contracts](docs/release/V1_CONTRACTS.md)
 - [Migration from pre-V1 builds](docs/release/MIGRATION.md)
 - [v1.0.0 release notes](docs/release/RELEASE_NOTES_1.0.0.md)
-- [v1.1.0 release notes](docs/release/RELEASE_NOTES_1.1.0.md)
+- [v1.1.2 release notes](docs/release/RELEASE_NOTES_1.1.2.md)
 - [v1.1.1 release notes](docs/release/RELEASE_NOTES_1.1.1.md)
+- [v1.1.0 release notes](docs/release/RELEASE_NOTES_1.1.0.md)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
 
@@ -279,6 +282,6 @@ Run `pnpm release:check` for the full V1.1 release gate.
 
 ## Release
 
-openPrompting v1.1.1 is a documentation-only patch release in the additive V1.1 line. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories carried forward from V1. The [v1.1.0 release notes](docs/release/RELEASE_NOTES_1.1.0.md) summarize the expanded catalog, and the [v1.1.1 release notes](docs/release/RELEASE_NOTES_1.1.1.md) describe this documentation patch.
+openPrompting v1.1.2 is a metadata/documentation-only patch release in the additive V1.1 line. The [V1 contracts](docs/release/V1_CONTRACTS.md) document the stable executable, command surface, config schema, evidence vocabulary, and data directories carried forward from V1. The [v1.1.0 release notes](docs/release/RELEASE_NOTES_1.1.0.md) summarize the expanded catalog, while the [v1.1.1](docs/release/RELEASE_NOTES_1.1.1.md) and [v1.1.2](docs/release/RELEASE_NOTES_1.1.2.md) release notes describe documentation patches.
 
 openPrompting is available under the [MIT License](LICENSE).

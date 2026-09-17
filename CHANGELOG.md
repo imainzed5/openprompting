@@ -2,6 +2,16 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.1.2] - 2026-09-17
+
+### Changed
+
+- Updated package homepage metadata to point to the public openPrompting website.
+
+### Compatibility
+
+- No CLI, config, catalog, template, or runtime behavior changes.
+
 ## [1.1.1] - 2026-09-17
 
 ### Fixed
